@@ -71,6 +71,7 @@ public class ZuulServlet extends HttpServlet {
             context.setZuulEngineRan();
 
             try {
+                //1.首先执行路由前置过滤器，如果执行前置过滤器抛出异常，则执行路由后置过滤器
                 preRoute();
             } catch (ZuulException e) {
                 error(e);
@@ -78,6 +79,7 @@ public class ZuulServlet extends HttpServlet {
                 return;
             }
             try {
+                //2.执行路由过滤器，如果执行路由过滤器抛出异常，则执行路由后置过滤器
                 route();
             } catch (ZuulException e) {
                 error(e);
@@ -85,6 +87,7 @@ public class ZuulServlet extends HttpServlet {
                 return;
             }
             try {
+                //3.正常情况下，执行完路由前置过滤器、路由过滤器后，执行路由后置过滤器
                 postRoute();
             } catch (ZuulException e) {
                 error(e);
